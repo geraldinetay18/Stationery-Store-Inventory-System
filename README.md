@@ -3,7 +3,7 @@ An ASP.NET Web App built with National University of Singapore, Institute of Sys
 This app provides inventory management, requisitions, approval, email and charting functions. It syncs with an Android app.
 
 ## Screenshots
-![](AD Project SA 47 - Team 10 (ASP Web)/ADProject_Team10/Images/SSIS1.png)
+![](AD\ Project\ SA\ 47\ -\ Team\ 10\ (ASP Web)/ADProject_Team10/Images/SSIS1.png)
 
 ![](AD Project SA 47 - Team 10 (ASP Web)/ADProject_Team10/Images/SSIS2.png)
 
