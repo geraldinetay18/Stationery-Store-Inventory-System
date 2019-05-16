@@ -16,9 +16,9 @@ This app provides inventory management, requisitions, approval, email and charti
 ## Contributors
 - **All**: Database design
 - **Geraldine:** Integration (ASP.NET), Stock Adjustment-related (adding, approve/reject, escalation), Low stock, List of stock cards
-- **Kyler:** Integration (Android), Authentication, Role allocation
+- **Kyler:** Integration (Android), Authentication, change Department Representative/ Acting Department Head
 - **Saphira:** Retrieval, Allocation, Disbursement
-- **Priyanga & Shalin:** Reorder levels, Update inventory, Collection point
+- **Priyanga & Shalin:** Reorder levels, Update inventory, Collection point, change Collection Point
 - **Trang:** Stationery Collection, Stock Card details
 - **Pengkai:** Purchase Orders, Suppliers, Chart displays
 - **Cheng Yuan:** Requisition-related (create, approve/reject, view history)
