@@ -1,0 +1,250 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="ADProject_Team10.SiteMaster" %>
+
+<!DOCTYPE html>
+<html>
+
+<head runat="server">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <%--<title><%: Page.Title %> - SSIS</title>--%>
+    <title>Stationery Store Inventory System</title>
+    <asp:PlaceHolder runat="server">
+        <%: Scripts.Render("~/bundles/modernizr") %>
+    </asp:PlaceHolder>
+    <webopt:BundleReference runat="server" Path="~/Content/css" />
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="~/Content/tenstyle.css">
+    <link rel="stylesheet" href="~/Content/Site.css">
+
+    <!--Google font-->
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+</head>
+
+<body style="background-color:aliceblue">
+    <form runat="server">
+        <!--Script Manager-->
+        <asp:ScriptManager runat="server">
+            <Scripts>
+                <%--To learn more about bundling scripts in ScriptManager see https://go.microsoft.com/fwlink/?LinkID=301884 --%>
+                <%--Framework Scripts--%>
+                <asp:ScriptReference Name="MsAjaxBundle" />
+                <asp:ScriptReference Name="jquery" />
+                <asp:ScriptReference Name="bootstrap" />
+                <asp:ScriptReference Name="WebForms.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebForms.js" />
+                <asp:ScriptReference Name="WebUIValidation.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebUIValidation.js" />
+                <asp:ScriptReference Name="MenuStandards.js" Assembly="System.Web" Path="~/Scripts/WebForms/MenuStandards.js" />
+                <asp:ScriptReference Name="GridView.js" Assembly="System.Web" Path="~/Scripts/WebForms/GridView.js" />
+                <asp:ScriptReference Name="DetailsView.js" Assembly="System.Web" Path="~/Scripts/WebForms/DetailsView.js" />
+                <asp:ScriptReference Name="TreeView.js" Assembly="System.Web" Path="~/Scripts/WebForms/TreeView.js" />
+                <asp:ScriptReference Name="WebParts.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebParts.js" />
+                <asp:ScriptReference Name="Focus.js" Assembly="System.Web" Path="~/Scripts/WebForms/Focus.js" />
+                <asp:ScriptReference Name="WebFormsBundle" />
+                <%--Site Scripts--%>
+            </Scripts>
+        </asp:ScriptManager>
+
+        <!--Wrapper-->
+        <div class="wrapper">
+
+            <!-- Sidebar  -->
+            <nav id="sidebar" style="background-color: snow; ">
+                <div class="sidebar-header">
+                    <img alt="SSIS logo" src="../Images/logo6.png" class="slogo" width="25%" />
+                </div>
+
+                <div class="sidebar-name">
+                    <asp:LoginView ID="LoginView1" runat="server">
+                        <LoggedInTemplate>
+                            <%: GetEmployeeName()  %>
+                        </LoggedInTemplate>
+                    </asp:LoginView>
+                </div>
+
+                <ul class="list-unstyled components">
+
+                    <!--1. DEPT-->
+                    <% if (Context.User.IsInRole("Department Staff") || Context.User.IsInRole("Department Head"))
+                        {%>
+
+                    <!-- A) DEPT HEAD-->
+                    <% if (Context.User.IsInRole("Department Head"))
+                        { %>
+                    <li class="active">
+                        <a href="#oneSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Requisition</a>
+                        <ul class="collapse list-unstyled" id="oneSubmenu">
+                            <li><a href="RequisitionApprovalPage.aspx">Approve Requisitions</a></li>
+                            <li><a href="ViewRequisitionHistoryPage.aspx">View History</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#twoSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Authorize</a>
+                        <ul class="collapse list-unstyled" id="twoSubmenu">
+                            <li><a href="ManageActingHead.aspx">Acting Department Head</a></li>
+                            <li><a href="ManageDeptRep.aspx">Department Representative</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="ModifyCollectionPoint.aspx">Change Collection Point</a></li>
+                    <%} %>
+
+                    <!--B) DEPT STAFF -->
+                    <% if (Context.User.IsInRole("Department Staff"))
+                        { %>
+                    <li><a href="ViewStationeryCatalogue.aspx">Stationery Catalogue</a></li>
+                    <li><a href="SubmitRequest.aspx">Requisition Form</a></li>
+                    <li><a href="RequisitionListStaff.aspx">My Requisitions</a></li>
+                    <li><a href="ViewRequisitionHistoryPage.aspx">Department Requisitions</a></li>
+
+                    <!--C) DEPT REP -->
+                    <% if (IsDeptRep())
+                        { %>
+                    <li><a href="#threeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Department Representative</a>
+                        <ul class="collapse list-unstyled" id="threeSubmenu">
+                            <li><a href="StationeryCollectionListByDept.aspx">All Collections</a></li>
+                            <li><a href="ModifyCollectionPoint.aspx">Change Collection Point</a></li>
+                        </ul>
+                    </li>
+                    <%} %>
+
+                    <!--D) DEPT ACTING HEAD -->
+                    <% if (IsActingHead())
+                        { %>
+                    <li><a href="#fourSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Acting Department Head</a>
+                        <ul class="collapse list-unstyled" id="fourSubmenu">
+                            <li><a href="RequisitionApprovalPage.aspx">Approve Requisitions</a></li>
+                            <li><a href="ManageDeptRep.aspx">Authorize Department Representative</a></li>
+                        </ul>
+                    </li>
+                    <%} %>
+                    <%} %>
+                    <!--Close Dept Staff-->
+                    <%} %>
+                    <!--Close DEPT-->
+
+                    <!--2. STORE-->
+                    <%  if (Context.User.IsInRole("Store Manager") || Context.User.IsInRole("Store Supervisor") || Context.User.IsInRole("Store Clerk"))
+                        {%>
+
+                    <!-- A) STORE MANAGER-->
+                    <% if (Context.User.IsInRole("Store Manager"))
+                        { %>
+                    <li class="active">
+                        <a href="#fiveSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Stock Adjustments</a>
+                        <ul class="collapse list-unstyled" id="fiveSubmenu">
+                            <li><a href="AdjustmentRequestsManager.aspx">Requests Above $250</a></li>
+                            <li><a href="AdjustmentVouchersListSup.aspx">Vouchers</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#sixSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Trend Analysis</a>
+                        <ul class="collapse list-unstyled" id="sixSubmenu">
+                            <li><a href="RequisitionTrendOnDepartment.aspx">By Department</a></li>
+                            <li><a href="OrderTrendOnCategory.aspx">By Supplier</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#sevenSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Reports</a>
+                        <ul class="collapse list-unstyled" id="sevenSubmenu">
+                            <li><a href="ChargeBack.aspx">Charge-Back Report</a></li>
+                            <li><a href="InventoryStatusReport.aspx">Inventory Status Report</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="SupplierList.aspx">Suppliers</a></li>
+
+                    <%} %>
+
+                    <%if (Context.User.IsInRole("Store Supervisor"))
+                        { %>
+                    <li><a href="AdjustmentRequestsListSup.aspx">Adjustment Requests</a></li>
+                    <li><a href="AdjustmentRequestsAbove250ListSup.aspx">Adjustment Requests Above $250</a></li>
+                    <li><a href="AdjustmentVouchersListSup.aspx">Adjustment Vouchers</a></li>
+                    <li><a href="StoreSupAssignDepartment.aspx">Department Allocation</a></li>
+                    <%} %>
+
+                    <%if (Context.User.IsInRole("Store Clerk"))
+                        { %>
+                    <li class="active">
+                        <a href="#nineSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Orders</a>
+                        <ul class="collapse list-unstyled" id="nineSubmenu">
+                            <li><a href="RaisePurchaseOrder_OrderList.aspx">View all Orders</a></li>
+                            <li><a href="RaisePurchaseOrder_NewOrder.aspx">Raise Purchase Order</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="RequisitionsList.aspx">Requisitions</a></li>
+                    <li><a href="RetrievalList.aspx">Retrievals</a></li>
+                    <li><a href="AllocationStationery.aspx">Current Allocation</a></li>
+                    <li><a href="DisbursementList.aspx">Disbursements</a></li>
+                    <li class="active">
+                        <a href="#tenSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Stock</a>
+                        <ul class="collapse list-unstyled" id="tenSubmenu">
+                            <li><a href="LowStock.aspx">Low Stock</a></li>
+                            <li><a href="AdjustmentsListClerk.aspx">Stock Adjustments</a></li>
+                            <li><a href="ListStockCard.aspx">Stock Cards</a></li>
+                            <li><a href="AnnualCatalogUpdate.aspx">Update Stationery Catalogue</a></li>
+                            <li><a href="UpdateReorderLevelAndQuantity.aspx">Update Reorder Level and Quantity</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="Department_CollectionPointList.aspx">My Assignments</a></li>
+
+                    <%} %>
+
+                    <%} %><!-- Close STORE-->
+
+                    <!--3. LOGOUT -->
+                    <asp:LoginView ID="LoginView2" runat="server">
+                        <LoggedInTemplate>
+                            <li >
+                                <asp:LoginStatus class="logout-button" runat="server" LogoutAction="Redirect" LogoutText="Log out" LogoutPageUrl="~/" OnLoggingOut="Unnamed_LoggingOut" />
+                            </li>
+                        </LoggedInTemplate>
+                    </asp:LoginView>
+                </ul>
+            </nav>
+
+            <!-- Page Content  -->
+            <div id="content" style="width:100%; padding:1px">
+
+                <!--Toggle-->
+                <div class="toggle-button" style="text-align: left;">
+                    <button type="button" id="sidebarCollapse" class="btn btn-info">
+                        <i class="fas fa-align-left"></i>
+                    </button>
+                </div>
+                <%--                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                </nav>--%>
+
+                <!--ASP Content placeholder-->
+                <div class="container body-content" style="width:95%;padding:20px; background-color:white;border-radius: 10px;" >
+                    <asp:ContentPlaceHolder ID="MainContent" runat="server">
+                    </asp:ContentPlaceHolder>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- jQuery CDN - Slim version (=without AJAX) -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <!-- Popper.JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+        <!-- Bootstrap JS -->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+        <%--        <script src="~/Scripts/togglescript.js"></script>--%>
+        <%--</script>--%>
+        <script>
+            $(document).ready(function () {
+                $('#sidebarCollapse').on('click', function () {
+                    $('#sidebar').toggleClass('active');
+                });
+            });
+        </script>
+    </form>
+</body>
+
+</html>

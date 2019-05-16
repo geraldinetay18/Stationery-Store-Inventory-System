@@ -1,0 +1,149 @@
+﻿@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+
+.wrapper {
+    display: flex;
+    align-items: stretch;
+}
+
+.toggle-button{
+    margin: 20px;
+}
+
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    min-height: 100vh;
+    font-family: 'Lato', sans-serif;
+    font-weight: 800;
+    background: #fff;
+    color: black;
+    transition: all 0.3s;
+    border-right: Gray;
+    -webkit-box-shadow: 5px 0 2px -2px #ececec;
+    box-shadow: 5px 0 5px -3px #ececec;
+}
+
+    #sidebar.active {
+        margin-left: -250px;
+    }
+
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+.dropdown-toggle::after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -250px;
+    }
+
+        #sidebar.active {
+            margin-left: 0;
+        }
+}
+
+body {
+    /*font-family: 'Poppins', sans-serif;*/
+    font-family: 'Lato', sans-serif;
+    background: #fff;
+    font-size: 120%
+}
+
+h1 {
+    font-family: 'Lato', sans-serif;
+    font-size: 2.5em;
+}
+
+p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1em;
+    font-weight: 300;
+    line-height: 1.7em;
+    color: black;
+}
+
+a, a:hover, a:focus {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+    #sidebar .sidebar-header {
+        padding-top: 20px;
+    }
+
+    #sidebar .slogo {
+        display: block;
+        margin: 0 auto;
+        position: relative;
+    }
+
+    #sidebar .sidebar-name {
+        font-size: 1.4em;
+        display: block;
+        text-align: center;
+        margin-top: 15px;
+        margin-bottom: 10px;
+        color: #ff8500;
+    }    
+    
+    #sidebar ul.components {
+        padding-bottom: 20px 0;
+        /*border-bottom: 1px solid #47748b;*/
+    }
+
+    #sidebar ul p {
+        /*color: #fff;*/
+        color: black;
+        padding: 20px;
+    }
+
+    #sidebar ul li a {
+        padding: 15px;
+        padding-left: 30px;
+        font-size: 1.1em;
+        display: block;
+    }
+
+        #sidebar ul li a:hover {
+            /*color: #7386D5;*/
+            color: #ff8500;
+            background: #fff;
+        }
+
+    #sidebar ul li.active > a, a[aria-expanded="true"] {
+        /*color: #fff;*/
+        color: black;
+        /*background: #6d7fcc;*/
+    }
+
+ul ul a {
+    font-size: 1em !important;
+    padding-left: 50px !important;
+    /*background: #6d7fcc;*/
+}
+
+.logout-button {
+    text-decoration: underline;
+}
+
+.watermark {
+    font-family: Arial;
+    font-size: small;
+    color: Gray;
+}
+
+.gridViewPager td {
+    padding: 1px 4px 2px 4px;
+    /*padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 1px;
+    padding-bottom: 2px;*/
+}

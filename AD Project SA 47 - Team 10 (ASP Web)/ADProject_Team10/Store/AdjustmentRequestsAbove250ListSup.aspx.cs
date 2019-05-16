@@ -1,0 +1,168 @@
+﻿/* Author: Geraldine Tay */
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+namespace ADProject_Team10.Store
+{
+    using BizLogic;
+    using Services;
+    using Models;
+
+    public partial class AdjustmentRequestsAbove250ListSup : System.Web.UI.Page
+    {
+        StockAdjustmentBizLogic saLogic = new StockAdjustmentBizLogic();
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!Context.User.IsInRole("Store Supervisor"))
+            {
+                Response.Redirect("~/ErrorPages/Unauthorised");
+            }
+            else
+            {
+                if (!IsPostBack)
+                {
+                    List<StockAdjustment> listAdjustments = saLogic.FindAllAbove250Pending();
+
+                    if (listAdjustments.Count > 0)
+                    {
+                        gvItems.DataSource = listAdjustments;
+                        gvItems.DataBind();
+                    }
+                    else
+                    {
+                        PanelMessage.Visible = true;
+                        PanelAll.Visible = false;
+                    }
+                }
+            }
+        }
+
+        protected string FindDescription(string itemCode)
+        {
+            return saLogic.FindDescription(itemCode);
+        }
+
+        public double FindAdjustmentCost(string itemCode, int quantity)
+        {
+            return saLogic.FindAdjustmentCost(itemCode, quantity);
+        }
+
+        public int FindCurrentQuantity(string itemCode)
+        {
+            return saLogic.FindCurrentQuantityByItemCode(itemCode);
+        }
+
+        protected void chkSelectHeader_CheckedChanged(object sender, EventArgs e)
+        {
+            foreach (GridViewRow row in gvItems.Rows)
+            {
+                ((CheckBox)row.FindControl("chkSelect")).Checked = ((CheckBox)sender).Checked;
+            }
+        }
+
+        protected void chkSelect_CheckedChanged(object sender, EventArgs e)
+        {
+            // Modify HEADER checkbox according to mini boxes
+
+            CheckBox chkSelectHeader = (CheckBox)gvItems.HeaderRow.FindControl("chkSelectHeader");
+
+            // 1. CHECKED HEADER
+            if (chkSelectHeader.Checked)
+                chkSelectHeader.Checked = ((CheckBox)sender).Checked;
+
+            // 2. UNCHECKED HEADER
+            else
+            {
+                bool allCheckBoxesChecked = true;
+                foreach (GridViewRow row in gvItems.Rows)
+                {
+                    if (!((CheckBox)row.FindControl("chkSelect")).Checked)
+                    {
+                        allCheckBoxesChecked = false;
+                        break;
+                    }
+                }
+                chkSelectHeader.Checked = allCheckBoxesChecked;
+            }
+        }
+
+        protected void btnReport_Click(object sender, EventArgs e)
+        {
+            List<int> listAdjustmentId = GetSelectedAdjustmentId();
+            string message = txbRemarks.Text;
+
+            // At least one adjustment selected
+            if (listAdjustmentId.Count > 0)
+            {
+                saLogic.ReportAdjustmentList(listAdjustmentId, message);
+                RefreshPage();
+                Response.Write("<script>confirm('Successful Reporting'); </script>");
+            }
+        }
+
+        protected void btnReject_Click(object sender, EventArgs e)
+        {
+            List<int> listAdjustmentId = GetSelectedAdjustmentId();
+
+            // At least one adjustment selected
+            if (listAdjustmentId.Count > 0)
+            {
+                saLogic.RejectAdjustmentList(listAdjustmentId, txbRemarks.Text, (int)Session["employeeId"]);
+                RefreshPage();
+                Response.Write("<script>confirm('Successful Rejection'); </script>");
+            }
+        }
+
+        List<int> GetSelectedAdjustmentId()
+        {
+            List<int> listAdjustmentId = new List<int>(); // For appending selected adjustments
+
+            // Find id of selected adjustments
+            foreach (GridViewRow row in gvItems.Rows)
+            {
+                if (((CheckBox)row.FindControl("chkSelect")).Checked)
+                    listAdjustmentId.Add(Convert.ToInt32(((Label)row.FindControl("lblAdjustmentId")).Text));
+            }
+            return listAdjustmentId;
+        }
+
+        void RefreshPage()
+        {
+            List<StockAdjustment> listAdjustments = saLogic.FindAllAbove250Pending();
+
+            gvItems.DataSource = listAdjustments;
+            gvItems.DataBind();
+            txbRemarks.Text = "";
+
+            if (listAdjustments.Count > 0)
+            {
+                gvItems.DataSource = listAdjustments;
+                gvItems.DataBind();
+            }
+            else
+            {
+                PanelMessage.Visible = true;
+                PanelAll.Visible = false;
+            }
+        }
+
+        protected void gvItems_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                // Get adjusted and current quantity
+                int qtyAdjusted = Convert.ToInt32(((Label)e.Row.FindControl("lblQtyAdjusted")).Text);
+                int qtyCurrent = Convert.ToInt32(((Label)e.Row.FindControl("lblQtyCurrent")).Text);
+
+                if ((qtyCurrent + qtyAdjusted) < 0)
+                    e.Row.Cells[3].ForeColor = System.Drawing.Color.Red;
+            }
+        }
+    }
+}

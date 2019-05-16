@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background4"
+    android:orientation="vertical"
+    android:paddingLeft="60dp"
+    android:paddingRight="60dp"
+    android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
+    tools:context=".LoginActivity">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="115dp"
+                android:layout_height="108dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="70dp"
+                android:src="@drawable/logo4" />
+
+            <ImageView
+                android:layout_width="275dp"
+                android:layout_height="33dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="16dp"
+                android:src="@drawable/logo8" />
+
+            <EditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/text_box"
+                android:drawableLeft="@android:drawable/sym_action_email"
+                android:drawablePadding="16dp"
+                android:drawableTint="@color/grey"
+                android:ems="10"
+                android:hint="@string/Email"
+                android:inputType="textEmailAddress"
+                android:padding="8dp" />
+
+            <EditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/text_box"
+                android:drawableLeft="@android:drawable/ic_lock_idle_lock"
+                android:drawablePadding="16dp"
+                android:drawableTint="@color/grey"
+                android:ems="10"
+                android:hint="@string/Password"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:padding="8dp"
+                android:paddingLeft="70dp" />
+
+            <TextView
+                android:id="@+id/tvMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:text="TextView"
+                android:textColor="@android:color/holo_red_light" />
+
+            <Button
+                android:id="@+id/btnLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/rounded_button"
+                android:clickable="true"
+                android:padding="10dp"
+                android:text="@string/title_activity_login"
+                android:textAllCaps="false"
+                android:textColor="#fff"
+                android:textSize="18dp"
+                android:textStyle="normal" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

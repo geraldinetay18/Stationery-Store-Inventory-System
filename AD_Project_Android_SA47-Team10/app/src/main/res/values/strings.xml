@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">AD_Project_Android_SA47-Team10</string>
+    <string name="SSIS">SSIS</string>
+    <string name="ManageHead">Manage Acting Department Head</string>
+    <string name="ActDeptHead">Acting Head</string>
+    <string name="StartDate">Start Date</string>
+    <string name="EndDate">End Date</string>
+    <string name="Update">Update</string>
+    <string name="Remove">Remove</string>
+    <string name="EmpList">Employee List</string>
+    <string name="RetList">Retrieval List</string>
+    <string name="Password">Password</string>
+    <string name="title_activity_login">Login</string>
+    <string name="ManageCollectionPoint">Manage Collection Point</string>
+    <string name="Home">Home</string>
+    <string name="Logout">Logout</string>
+    <string name="Email">Email</string>
+    <string name="ConfirmRetrieval">Confirm Retrieval</string>
+    <string name="MarkAsNotCollected">Mark As Not Collected</string>
+    <string name="RequestForAcknowledgement">Request for Acknowledgement</string>
+    <string name="CollectionPointList">Collection Point List</string>
+    <string name="DisbursementList">Disbursement List</string>
+    <string name="DisbursementDetailsList">Disbursement Details List</string>
+    <string name="RetrievalDetails">Retrieval Details</string>
+    <string name="DisbursementDetails">Disbursement Details</string>
+    <string name="StationeryCollection">Stationery Collection</string>
+
+    <string-array name="AdjustmentReason">
+        <item>Broken</item>
+        <item>Adhoc</item>
+        <item>Unrecorded</item>
+    </string-array>
+
+</resources>
